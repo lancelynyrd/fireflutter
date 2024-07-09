@@ -21,6 +21,14 @@
             "program": "lib/main.dart"
         },
         {
+            "name": "Elementary - Emulator 5544",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "emulator-5554",
+            "cwd": "apps/elementary",
+            "program": "lib/main.dart"
+        },
+        {
             "name": "Simple - iOS Simulator - iPhone 15 Pro Max",
             "request": "launch",
             "type": "dart",
@@ -41,6 +49,14 @@
             "request": "launch",
             "type": "dart",
             "deviceId": "iPhone SE",
+            "cwd": "example",
+            "program": "lib/main.widgets.dart"
+        },
+        {
+            "name": "All Widgets - Emulator 5554",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "emulator-5554",
             "cwd": "example",
             "program": "lib/main.widgets.dart"
         },
