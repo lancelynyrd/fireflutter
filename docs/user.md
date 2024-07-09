@@ -1,6 +1,14 @@
 # 사용자
 
 
+## 개요
+
+- 기본적으로 Anonymous 로그인을 지원하는데, 원하지 않으면 초기화 과정에서 `enableAnonymousSignIn` 을 false 로 지정하면 된다.
+  - Anonymous 로그인한 사용자를 실제로 로그인한 사용자로 인정하지만, 로그아웃 버튼을 표시하지 않는다.
+  - 또한 Anonymous 사용자는 가입한 사용자로 인정하지 않는다. 즉, 로그인을 했지만, 회원 가입을 하지 않은 사용자로 간주한다.
+  - 그래서 Anonymous 사용자에게는 회원 가입 메뉴 또는 로그인 버튼 등을 보여주어야 한다.
+
+
 ## 설치
 
 ## 초기화
@@ -61,9 +69,10 @@ my.private.set('field', 'value');
 
 ## 사용자 위젯
 
-### 파이어베이스 로그인 UserState
+### 파이어베이스 로그인 AuthStateChanges
 
-`UserState` 위젯은 단순히, `Firebase.instance.authStateChanges` 내장하여 사용자의 Firestore 로그인 상태에 따라, UI 위젯을 빌드 할 수 있도록 해 놓은 것이다. 내부적으로 StreamBuilder 를 사용하므로, StreamBuilder 의 특성을 그대로 이용하면 된다.
+`AuthStateChanges` 위젯은 단순히, `Firebase.instance.authStateChanges` 내장하여 사용자의 Firestore 로그인 상태에 따라, UI 위젯을 빌드 할 수 있도록 해 놓은 것이다. 내부적으로 StreamBuilder 를 사용하므로, StreamBuilder 의 특성을 그대로 이용하면 된다.
+
 
 
 

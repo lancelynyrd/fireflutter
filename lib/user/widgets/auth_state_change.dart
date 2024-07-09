@@ -1,16 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-/// AuthState
+/// AuthStateChanges
 ///
 /// Use this widget to listen to the login user's authentication state changes
-/// and rebuild the UI accordingly.
+/// and rebuild the UI accordingly. It simply wraps
+/// [FirebaseAuth.instance.authStateChanges] insdie a [StreamBuilder].
 ///
 /// [builder] is the UI builder callback that will be called when the user's
 /// authentication state changes.
 ///
-class AuthState extends StatelessWidget {
-  const AuthState({super.key, required this.builder});
+class AuthStateChanges extends StatelessWidget {
+  const AuthStateChanges({super.key, required this.builder});
 
   final Widget Function(User?) builder;
 

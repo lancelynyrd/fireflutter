@@ -1,4 +1,25 @@
-# House Model
+# FireFlutter
+
+
+- [FireFlutter](#fireflutter)
+  - [Building as a core developer](#building-as-a-core-developer)
+  - [Coding convention](#coding-convention)
+    - [Singular form](#singular-form)
+    - [Model class](#model-class)
+    - [Data listing](#data-listing)
+  - [Documentation](#documentation)
+  - [Test](#test)
+    - [Unit test](#unit-test)
+    - [Widget test](#widget-test)
+    - [House test](#house-test)
+  - [Translation](#translation)
+  - [TODO feature](#todo-feature)
+  - [TODO feature](#todo-feature-1)
+    - [Todo database](#todo-database)
+    - [Todo-Task collection](#todo-task-collection)
+    - [Todo-assign collection](#todo-assign-collection)
+    - [Widgets of TODO](#widgets-of-todo)
+      - [TodoListView](#todolistview)
 
 
 ## Building as a core developer
@@ -202,7 +223,9 @@ task7 {
 
 
 
-## Todo database
+## TODO feature
+
+### Todo database
 
 ### Todo-Task collection
 
@@ -225,5 +248,21 @@ task7 {
     - `review` - the work is in review. asking, the moderator to review it.
     - `closed` - the moderator can only mark it as `closed`. If the task is in `closed` status, assignee cannot update(change) anyting including the status anymore.
   - For example, The status can be changed at any time. Assignee can mark it as `review` and the moderator can mark it as `progress` soon after. But the moderator is the only one who can mark it as `closed` and once it is closed, it cannot be updated(changed).
+
+
+
+
+### Widgets of TODO
+
+#### TodoListView
+
+This list view is responsible to list all kinds of tasks which includes but not limited to, listing;
+  - tasks that are created by himself,
+  - tasks that assign to himself, 
+  - task that are create by himself and assigned himself,
+  - task that are create by himself and assigned to others,
+  - task that are create by himself and not assigned to any one,
+  - task that are create by himself and assigned to more than 2 others,
+  - and more more options.
 
 

@@ -1,8 +1,4 @@
-final translationTexts = {
-  'house.name': {
-    'en': 'Model House',
-    'ko': '모델 하우스',
-  },
+final Map<String, dynamic> translationTexts = {
   'home': {
     'en': 'Home',
     'ko': '홈',

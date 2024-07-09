@@ -1,3 +1,4 @@
+import 'package:fireflutter/fireflutter.dart';
 import 'package:flutter/material.dart';
 
 class TodoHomeScreen extends StatefulWidget {
@@ -15,9 +16,21 @@ class _TodoHomeScreenState extends State<TodoHomeScreen> {
       appBar: AppBar(
         title: const Text('Home'),
       ),
-      body: const Column(
+      body: Column(
         children: [
-          Text("Home"),
+          ElevatedButton(
+              onPressed: () {
+                showGeneralDialog(
+                  context: context,
+                  pageBuilder: (_, __, ___) => const TaskCreateScreen(),
+                );
+              },
+              child: const Text("Create a task")),
+          Expanded(
+            child: TaskListView(
+              queryOptions: TaskQueryOptions(),
+            ),
+          ),
         ],
       ),
     );

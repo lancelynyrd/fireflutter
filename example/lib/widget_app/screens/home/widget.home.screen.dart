@@ -17,6 +17,13 @@ class WidgetHomeScreen extends StatefulWidget {
 
 class _UserHomeScreenState extends State<WidgetHomeScreen> {
   @override
+  void initState() {
+    super.initState();
+    TranslationService.instance
+        .set(key: 'Abc', locale: 'en', value: 'This is ABC');
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -32,8 +39,8 @@ class _UserHomeScreenState extends State<WidgetHomeScreen> {
               ''' To see the best look, please sign in and add some dummy data.''',
             ),
           ),
-          AuthState(
-            builder: (user) => user == null
+          AuthStateChanges(
+            builder: (user) => user == null || user.isAnonymous == true
                 ? const EmailPasswordLogin()
                 : ElevatedButton(
                     onPressed: () => i.signOut(),

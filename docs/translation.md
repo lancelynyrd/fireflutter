@@ -17,17 +17,19 @@ Flutter locale 을 사용하지 않는다. 따라서 Flutter 에 로케일 설�
 
 ## 초기화
 
-아래와 같이 장치언어를 사용 할 수 있다. 상황에 따라서 `TranslationService.instance.setDeviceLocale()` 앞에 `await` 키워드를 추가해도 된다.
+- 초기화는 `main()` 함수에서 `runApp` 을 호출하기 전에 할 것을 권한다. 만약 이 위치에 하지 못하는 경우, 앱의  첫 페이지 스크린 위젯의 `initState` 에서 할 수 있다.
+
+- 아래와 같이 init 을 호출하면 핸드폰(장치) 설정의 언어를 사용 할 수 있다. 상황에 따라서 `TranslationService.instance.init()` 앞에 `await` 키워드를 추가해도 된다.
 
 ```dart
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  TranslationService.instance.setDeviceLocale();
+  TranslationService.instance.init();
   runApp(const MyApp());
 }
 ```
 
-위의 `TranslationService.instance.setDeviceLocale();` 대신 아래와 같이 초기화를 할 수 있다.
+- 아래와 같이 좀 더 자세히 초기화를 할 수 있다.
 
 ```dart
 TranslationService.instance.init(
@@ -39,7 +41,8 @@ TranslationService.instance.init(
 ```
 
 위 코드에서 `deviceLocale` 에 true 를 지정하면, 현재 장치의 설정에 적용된 언어를 사용하라는 것이다. 기본 값은 `true` 이다.
-그리고 만약, `deviceLocale` 에서 언어를 설정하지 못하거나, `deviceLocale` 일 false 인 경우, 기본적으로 `defaultLanguage` 를 사용하게 할 수 있다.
+그리고 만약, `deviceLocale` 에서 언어를 설정하지 못하거나, `deviceLocale` 일 false 인 경우, 기본적으로 `defaultLanguage` 를 사용하게 할 수 있다. 즉, 핸드폰 기본 설정 언어를 사용하지 않고, 내 마음대로 언어를 지정하고 싶다면, `deviceLocale` 에 false 를 주고, `defaultLanguage` 에 "ko" 등의 값을 주어 내가 원하는 언어가 기본 선택되게 할 수 있다.
+
 만약, 다국어에서 번역된 문자열을 찾지 못하면 `fallbackLocale` 의 언어에서 번역된 문자열이 있는지 찾아서 있으면 그 번역 문자열을 사용한다. 기본 값은 `en` 이다.
 그리고 `useKeyAsDefaultText` 가 true 이면, 번역된 문자열을 못찾은 경우 언어 코드(키)를 그대로 사용하라는 것이다. 만약, 이 값이 false 이면, 언어 코드(키)를 사용하되 맨 끝에 `.t` 를 붙여서 화면에 표시한다.
 

@@ -32,25 +32,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 /// ```
 ///
 /// Return the user object of firebase auth and whether the user is registered or not.
-Future<({User? user, bool register})> loginOrRegister({
+Future loginOrRegister({
   required String email,
   required String password,
   String? photoUrl,
   String? displayName,
 }) async {
-  UserCredential? userCredential;
-
   try {
     // login
-    userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
-    return (user: userCredential.user, register: false);
   } catch (e) {
     // create
-    userCredential = await FirebaseAuth.instance
+    await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password);
-    return (user: userCredential.user, register: true);
+    return;
   }
 }

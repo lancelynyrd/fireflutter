@@ -1,13 +1,19 @@
 import 'package:fireflutter/fireflutter.dart';
 
 extension TranslationServiceExtensionMap on String {
-  /// Translate the string from the Mintl.
+  /// Translate the string
   ///
   /// Example:
   /// ```dart
-  /// 'version'.tr(args: {'#version': '1.0.0'})
+  /// 'version'.t
   /// ```
   String get t => TranslationService.instance.tr(this);
+
+  /// Translate with replacement
   String tr({Map<String, dynamic>? args, int? form}) =>
-      TranslationService.instance.tr(this, args: args, form: form);
+      TranslationService.instance.tr(
+        this,
+        args: args,
+        form: form,
+      );
 }

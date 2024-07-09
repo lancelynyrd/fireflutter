@@ -17,7 +17,7 @@ class _HouseTestScreenState extends State<HouseTestScreen> {
       appBar: AppBar(
         title: const Text('House Test'),
       ),
-      body: AuthState(
+      body: AuthStateChanges(
         builder: (user) => user == null
             ? const Text('Sign in to test')
             : Column(
@@ -39,14 +39,14 @@ class _HouseTestScreenState extends State<HouseTestScreen> {
                     onPressed: testTaskAssign,
                     child: Text('Task Assign Test'),
                   ),
-                  const ElevatedButton(
-                    onPressed: testDeleteField,
-                    child: Text('Task Delete Field Test'),
-                  ),
-                  const ElevatedButton(
-                    onPressed: testCreateWithPriority,
-                    child: Text('Task Create With Priority Test'),
-                  ),
+                  // const ElevatedButton(
+                  //   onPressed: testDeleteField,
+                  //   child: Text('Task Delete Field Test'),
+                  // ),
+                  // const ElevatedButton(
+                  //   onPressed: testCreateWithPriority,
+                  //   child: Text('Task Create With Priority Test'),
+                  // ),
                 ],
               ),
       ),

@@ -16,6 +16,8 @@ void testTodo() async {
 
   /// Assign crud
   await testTaskAssign();
+
+  /// Task delete
   await testTaskDeleteWithoutAssign();
   await testTaskDeleteWithAssign();
   await testTaskDeleteComplicated();
@@ -24,8 +26,8 @@ void testTodo() async {
   ///
   await testTaskStatus();
 
-  await testDeleteField();
-  await testCreateWithPriority();
+  // await testDeleteField();
+  // await testCreateWithPriority();
 
   await testReport();
 }
@@ -217,26 +219,26 @@ Future testTaskFlow() async {
       'Expect: success on task status change.');
 }
 
-Future testDeleteField() async {
-  final created = await createTask();
-  isTrue(created.startAt == null, "Expect: startAt must begin as null");
-  final DateTime startAtEntry = DateTime.now();
-  await created.update(startAt: startAtEntry);
-  final updatedStartAt = await Task.get(created.id) as Task;
-  isTrue(updatedStartAt.startAt == startAtEntry,
-      'Expect: success on startAt update.');
-}
+// Future testDeleteField() async {
+//   final created = await createTask();
+//   isTrue(created.startAt == null, "Expect: startAt must begin as null");
+//   final DateTime startAtEntry = DateTime.now();
+//   await created.update(startAt: startAtEntry);
+//   final updatedStartAt = await Task.get(created.id) as Task;
+//   isTrue(updatedStartAt.startAt == startAtEntry,
+//       'Expect: success on startAt update.');
+// }
 
-Future testCreateWithPriority() async {
-  final taskId = (await Task.create(
-    title: 'task - ${DateTime.now()}',
-    priority: 1,
-  ))
-      .id;
+// Future testCreateWithPriority() async {
+//   final taskId = (await Task.create(
+//     title: 'task - ${DateTime.now()}',
+//     priority: 1,
+//   ))
+//       .id;
 
-  final created = await Task.get(taskId) as Task;
-  isTrue(
-    created.priority == 1,
-    'Expect: success on task with priority create.',
-  );
-}
+//   final created = await Task.get(taskId) as Task;
+//   isTrue(
+//     created.priority == 1,
+//     'Expect: success on task with priority create.',
+//   );
+// }

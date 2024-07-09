@@ -13,7 +13,7 @@
             "program": "lib/main.dart"
         },
         {
-            "name": "Elementary - iOS Simulator - iPhone11ProMax",
+            "name": "Elementary - iPhone11ProMax",
             "request": "launch",
             "type": "dart",
             "deviceId": "iPhone11ProMax",
@@ -135,6 +135,14 @@
             "cwd": "example",
             "program": "lib/main.simple.dart",
             "args": ["--dart-define", "MODE=noe"]
+        },
+        {
+            "name": "TODO - iPhone 15 Pro Max",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "iPhone 15 Pro Max",
+            "cwd": "example",
+            "program": "lib/main.todo.dart",
         },
     ]
 }

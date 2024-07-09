@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fireflutter/fireflutter.dart';
 
@@ -16,12 +17,10 @@ class EmailPasswordLogin extends StatefulWidget {
   const EmailPasswordLogin({
     super.key,
     this.onLogin,
-    this.onRegister,
     this.padding,
   });
 
   final void Function()? onLogin;
-  final void Function()? onRegister;
   final EdgeInsets? padding;
 
   @override
@@ -40,7 +39,7 @@ class _EmailPasswordLoginState extends State<EmailPasswordLogin> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           LabelField(
-            label: 'email'.t,
+            label: 'emAil'.t,
             controller: emailController,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
@@ -62,41 +61,62 @@ class _EmailPasswordLoginState extends State<EmailPasswordLogin> {
             ),
           ),
           const SizedBox(height: 24),
-          Center(
-            child: ElevatedButton(
-              onPressed: () async {
-                dog("Email: ${emailController.text}");
-                dog("Password: ${passwordController.text}");
+          Row(
+            children: [
+              ElevatedButton(
+                onPressed: () async {
+                  dog("Email: ${emailController.text}");
+                  dog("Password: ${passwordController.text}");
 
-                if (emailController.text.trim().isEmpty) {
-                  throw HouseException(
-                    'input-email',
-                    'Input email to login',
-                  );
-                } else if (passwordController.text.trim().isEmpty) {
-                  throw HouseException(
-                    'input-password',
-                    'Input password to login',
-                  );
-                }
-
-                final re = await loginOrRegister(
-                  email: emailController.text,
-                  password: passwordController.text,
-                );
-                if (widget.onRegister != null) {
-                  if (re.register) {
-                    widget.onRegister?.call();
-                  } else {
-                    dog('register is true');
-                    widget.onLogin?.call();
+                  if (emailController.text.trim().isEmpty) {
+                    throw HouseException(
+                      'input-email',
+                      'Input email to login',
+                    );
+                  } else if (passwordController.text.trim().isEmpty) {
+                    throw HouseException(
+                      'input-password',
+                      'Input password to login',
+                    );
                   }
-                } else {
+
+                  await loginOrRegister(
+                    email: emailController.text,
+                    password: passwordController.text,
+                  );
+
                   widget.onLogin?.call();
-                }
-              },
-              child: Text('login'.t.toUpperCase()),
-            ),
+                },
+                child: Text('login'.t.toUpperCase()),
+              ),
+              const Spacer(),
+              ElevatedButton(
+                onPressed: () async {
+                  /// Get the credential only.
+                  dog('Get credential only without login');
+                  final credential = EmailAuthProvider.credential(
+                    email: emailController.text,
+                    password: passwordController.text,
+                  );
+                  try {
+                    /// link with current user.
+                    await FirebaseAuth.instance.currentUser
+                        ?.linkWithCredential(credential);
+                  } on FirebaseAuthException catch (e) {
+                    if (e.code == 'email-already-in-use') {
+                      dog('The email is already in use -> Try to sign-in with the email and password.');
+                      await loginOrRegister(
+                        email: emailController.text,
+                        password: passwordController.text,
+                      );
+                    } else {
+                      rethrow;
+                    }
+                  }
+                },
+                child: const Text('Link Currnet Accout'),
+              )
+            ],
           ),
         ],
       ),

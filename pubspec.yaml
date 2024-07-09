@@ -1,7 +1,10 @@
 name: fireflutter
-description: "UI Library for Flutter and Firebase to build app quickly"
+description: "A Flutter framework that works with Firebase, providing beautiful UI and ready-to-use app logic."
 version: 0.4.0
-homepage: https://github.com/thruthesky/model_house
+homepage: https://github.com/thruthesky/fireflutter
+screenshots:
+  - description: A fast and reliable app development toolkit.
+    path: etc/logo/logo.jpg
 
 environment:
   sdk: ">=3.4.3 <4.0.0"
@@ -9,15 +12,15 @@ environment:
 
 dependencies:
   cached_network_image: ^3.3.1
-  cloud_firestore: 5.0.2
-  cloud_functions: 5.0.2
+  cloud_firestore: ^5.0.2
+  cloud_functions: ^5.0.2
   date_picker_v2: ^0.0.4
   devicelocale: ^0.7.1
-  firebase_auth: 5.1.1
-  firebase_core: 3.1.1
-  firebase_database: 11.0.2
-  firebase_messaging: 15.0.2
-  firebase_storage: 12.1.0
+  firebase_auth: ^5.1.1
+  firebase_core: ^3.1.1
+  firebase_database: ^11.0.2
+  firebase_messaging: ^15.0.2
+  firebase_storage: ^12.1.0
   firebase_ui_firestore: ^1.6.4
   flutter:
     sdk: flutter

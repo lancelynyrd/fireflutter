@@ -14,11 +14,16 @@ class TranslationService {
   String fallbackLocale = 'en';
   bool useKeyAsDefaultText = false;
 
-  /// initialize the translation service
+  bool initialized = false;
+
+  /// initialize the translation service.
   ///
   /// [deviceLocale] If true, set the device locale as the default locale.
   ///
-  /// [defaultLocale] The default locale. If the locale is not set, use this locale.
+  /// [defaultLocale] The default locale. If the [locale] is not set, the it
+  /// will use this [defaultLocale]. So, if you don't want to use the device
+  /// locale, call init function with [deviceLocale] false and set your own
+  /// local to this [defaultLocale].
   ///
   /// [fallbackLocale] The fallback locale. If the text is not found in the locale, use this locale.
   ///
@@ -37,6 +42,8 @@ class TranslationService {
     String fallbackLocale = 'en',
     bool useKeyAsDefaultText = false,
   }) async {
+    initialized = true;
+
     this.defaultLocale = defaultLocale;
     this.fallbackLocale = fallbackLocale;
     this.useKeyAsDefaultText = useKeyAsDefaultText;
@@ -44,9 +51,32 @@ class TranslationService {
       await TranslationService.instance.setDeviceLocale();
     }
 
-    dog('current locale; $locale, default locale: $defaultLocale, fallback locale: $fallbackLocale');
+    initConvertExistingTextKeysToLowerCase();
+
+    // dog('current locale; $locale, default locale: $defaultLocale, fallback locale: $fallbackLocale');
   }
 
+  initConvertExistingTextKeysToLowerCase() {
+    /// Make the translation text key into lower case
+    Map<String, dynamic> copy = {};
+    translationTexts.forEach((key, value) {
+      final lowerKey = key.toLowerCase();
+
+      copy[lowerKey] = value;
+    });
+    translationTexts.clear();
+    translationTexts.addAll(copy);
+  }
+
+  /// Set the current locale as the device locale
+  ///
+  /// Use this function to set the device locale as the app's locale.
+  ///
+  /// When it is called, the language of the package will be set to the
+  /// device's language.
+  ///
+  /// You may not use this function if you want to set the locale manually
+  /// with the [defaultLocale].
   Future setDeviceLocale() async {
     locale = await currentLocale;
   }
@@ -62,11 +92,15 @@ class TranslationService {
     return locale ?? defaultLocale;
   }
 
+  /// Translate with replacement
   tr(
     String key, {
     Map<String, dynamic>? args,
     int? form,
   }) {
+    /// For case insensitive
+    key = key.toLowerCase();
+
     /// Get the translation text map from the key.
     final textMap = translationTexts[key] ?? {};
 
@@ -114,9 +148,14 @@ class TranslationService {
     required String locale,
     required dynamic value,
   }) {
+    /// For case insensitive
+    key = key.toLowerCase();
+
     if (translationTexts[key] == null) {
       translationTexts[key] = {};
     }
+
+    /// Case insensitive
     translationTexts[key]![locale] = value;
   }
 }

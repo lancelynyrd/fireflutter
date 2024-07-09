@@ -17,8 +17,24 @@ class UserService {
   User? user;
   BehaviorSubject<User?> changes = BehaviorSubject();
 
-  init() {
+  /// Enable anonymous sign in
+  bool enableAnonymousSignIn = true;
+
+  init({
+    bool enableAnonymousSignIn = true,
+  }) {
+    this.enableAnonymousSignIn = enableAnonymousSignIn;
     listenUserDocumentChanges();
+  }
+
+  initAnonymousSignIn() async {
+    if (enableAnonymousSignIn) {
+      final user = fa.FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        dog('initAnonymousSignIn: sign in anonymously');
+        await fa.FirebaseAuth.instance.signInAnonymously();
+      }
+    }
   }
 
   bool get signedIn => fa.FirebaseAuth.instance.currentUser != null;
@@ -35,11 +51,16 @@ class UserService {
         fa.FirebaseAuth.instance.authStateChanges().listen((faUser) async {
       /// User state changed
       if (faUser == null) {
+        dog('Firebase User is null. User signed out.');
         user = null;
         changes.add(user);
-        dog('faUser is null');
+        initAnonymousSignIn();
       } else {
-        dog('faUser is not null');
+        if (faUser.isAnonymous) {
+          dog('User signed in. The Firebase User is anonymous');
+        } else {
+          dog('User signed in. The Firebase User is NOT anonymous');
+        }
 
         /// User signed in. Listen to the user's document changes.
         firestoreMyDocSubscription?.cancel();
