@@ -25,8 +25,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: HouseTestScreen(),
-    );
+    return const MaterialApp(home: Center(child: Text('Test me')));
   }
 }

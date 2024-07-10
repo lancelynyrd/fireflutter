@@ -69,6 +69,22 @@
             "program": "lib/main.widgets.dart"
         },
         {
+            "name": "TODO APP - iOS Simulator - iPhone 15 Pro Max",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "iPhone 15 Pro Max",
+            "cwd": "example",
+            "program": "lib/main.todo.dart"
+        },
+        {
+            "name": "TODO APP - iOS Simulator - iPhone SE",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "iPhone SE",
+            "cwd": "example",
+            "program": "lib/main.todo.dart"
+        },
+        {
             "name": "TEST - iOS Simulator - iPhone 15 Pro Max",
             "request": "launch",
             "type": "dart",
@@ -115,7 +131,10 @@
             "deviceId": "iPhone 15 Pro Max",
             "cwd": "apps/elementary",
             "program": "lib/main.dart",
-            "args": ["--dart-define", "MODE=noe"]
+            "args": [
+                "--dart-define",
+                "MODE=noe"
+            ]
         },
         {
             "name": "Elementary(Noe) - iOS Simulator - iPhone SE (3rd generation)",
@@ -124,7 +143,10 @@
             "deviceId": "iPhone SE (3rd generation)",
             "cwd": "apps/elementary",
             "program": "lib/main.dart",
-            "args": ["--dart-define", "MODE=noe"]
+            "args": [
+                "--dart-define",
+                "MODE=noe"
+            ]
         },
         {
             "name": "Elementary(Noe) - iOS Simulator - iPhone 15 Pro",
@@ -133,7 +155,10 @@
             "deviceId": "iPhone 15 Pro",
             "cwd": "apps/elementary",
             "program": "lib/main.dart",
-            "args": ["--dart-define", "MODE=noe"]
+            "args": [
+                "--dart-define",
+                "MODE=noe"
+            ]
         },
         {
             "name": "Model SimpleApp Example (Noe)- iOS Simulator - iPhone 15 Pro Max",
@@ -142,7 +167,10 @@
             "deviceId": "iPhone 15 Pro Max",
             "cwd": "example",
             "program": "lib/main.simple.dart",
-            "args": ["--dart-define", "MODE=noe"]
+            "args": [
+                "--dart-define",
+                "MODE=noe"
+            ]
         },
         {
             "name": "TODO - iPhone 15 Pro Max",

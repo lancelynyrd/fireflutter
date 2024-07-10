@@ -6,9 +6,11 @@ class UserListTile extends StatelessWidget {
   const UserListTile({
     super.key,
     required this.user,
+    this.onTap,
   });
 
   final User user;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +22,16 @@ class UserListTile extends StatelessWidget {
       subtitle: Text(
         user.createdAt?.toShort ?? '',
       ),
-      onTap: () => showGeneralDialog(
+      onTap: () {
+        if (onTap != null) {
+          onTap!();
+          return;
+        }
+        showGeneralDialog(
           context: context,
-          pageBuilder: (_, __, ___) => UserPublicProfileScreen(user: user)),
+          pageBuilder: (_, __, ___) => UserPublicProfileScreen(user: user),
+        );
+      },
     );
   }
 }

@@ -1,19 +1,66 @@
+######################
+
+.metadata
+.idea
+
+
+# remove firebase config
+.firebase/
+**/.firebase/
+
+# remove keys
+key.ts
+**/key.ts
+key.dart
+keys.dart
+**/key.dart
+**/keys.dart
+
+
+tmp/
+
+# apps
+apps/
+**/firebase_options.dart
+example/**/firebase_options.dart
+
+
+# example
 example/android/
 example/ios/
-example/macos/
 example/web/
-example/windows/
 example/linux/
+example/macos/
+example/windows/
 example/build/
 example/.dart_tool/
-example/.idea
-example/.metadata
+example/.packages
+example/.pub/
+example/.flutter-plugins
+example/.flutter-plugins-dependencies
 
-**/firebase_options.dart
+# remove plaforms
+android/
+ios/
+web/
+linux/
+macos/
+windows/
+build/
 
-apps/
+.dart_tool/
 
+#
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# mkdocs
 venv/
+
+######################
+
+
+
 
 
 # Miscellaneous

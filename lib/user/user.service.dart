@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fa;
 import 'package:fireflutter/fireflutter.dart';
+import 'package:fireflutter/user/screens/user.public_profile.screen.dart';
+import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 /// This is the user service class that will be used to manage the user's authentication and user data management.
@@ -20,11 +22,28 @@ class UserService {
   /// Enable anonymous sign in
   bool enableAnonymousSignIn = true;
 
+  /// to replace the fireflutter public profile screen, you can provide
+  /// your own public profile screen in user initialization
+  /// ex.
+  /// ```dart
+  /// UserService.intance.init(
+  ///  publicProfileScreen: (user) {
+  ///     return MyPublicProfileScreen(user: user);
+  ///   }
+  /// );
+  /// ```
+  Widget Function(User? user)? publicProfileScreen;
+  Widget Function()? profileUpdateScreen;
+
   init({
     bool enableAnonymousSignIn = true,
+    Widget Function(User? user)? publicProfileScreen,
+    Widget Function()? profileUpdateScreen,
   }) {
     this.enableAnonymousSignIn = enableAnonymousSignIn;
     listenUserDocumentChanges();
+    this.publicProfileScreen = publicProfileScreen ?? this.publicProfileScreen;
+    this.profileUpdateScreen = profileUpdateScreen ?? this.profileUpdateScreen;
   }
 
   initAnonymousSignIn() async {
@@ -115,5 +134,28 @@ class UserService {
           data,
           SetOptions(merge: true),
         );
+  }
+
+  // to display public profile user `UserService.intance.showPublicProfile`
+  // this will display publicProfile from fireflutter
+  showPublicProfile(BuildContext context) {
+    return showGeneralDialog(
+      context: context,
+      pageBuilder: (context, _, __) {
+        return UserService.instance.publicProfileScreen == null
+            ? UserPublicProfileScreen(user: user!)
+            : UserService.instance.publicProfileScreen!.call(user);
+      },
+    );
+  }
+
+  showProfileUpdaeScreen(BuildContext context) {
+    return showGeneralDialog(
+        context: context,
+        pageBuilder: (context, _, __) {
+          return UserService.instance.profileUpdateScreen == null
+              ? const UserProfileUpdateScreen()
+              : UserService.instance.profileUpdateScreen!.call();
+        });
   }
 }

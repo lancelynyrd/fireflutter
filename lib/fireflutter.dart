@@ -9,6 +9,9 @@ export './exception/error_code/user.error_code.dart';
 export './extensions/datetime.extension.dart';
 export './extensions/string.extensions.dart';
 
+export './friend/friend.dart';
+export './friend/friend.service.dart';
+
 export './functions/auth.functions.dart';
 export './functions/alert_dialog.function.dart';
 export './functions/confirm_dialog.function.dart';
@@ -20,7 +23,6 @@ export './functions/log.functions.dart';
 export './functions/toast.function.dart';
 
 export './house.service.dart';
-export './house_test/widgets/house_test.screen.dart';
 
 export './storage/storage.service.dart';
 
@@ -29,13 +31,6 @@ export './translation/translation.service.dart';
 export './translation/translation.texts.dart';
 
 export './user/screens/user.profile_update.screen.dart';
-
-export './todo/assign.dart';
-export 'todo/screens/task.create.screen.dart';
-export 'todo/screens/task.detail.screen.dart';
-export './todo/task.dart';
-export './todo/todo.service.dart';
-export './todo/widgets/task.list_view.dart';
 
 export './user/user.dart';
 export './user/user.defines.dart';

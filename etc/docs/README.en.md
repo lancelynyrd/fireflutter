@@ -4,8 +4,9 @@
 - [FireFlutter](#fireflutter)
   - [Building as a core developer](#building-as-a-core-developer)
   - [Coding convention](#coding-convention)
-    - [Singular form](#singular-form)
-    - [Model class](#model-class)
+    - [Documenations](#documenations)
+      - [Mermaid](#mermaid)
+    - [Model and Service class](#model-and-service-class)
     - [Data listing](#data-listing)
   - [Documentation](#documentation)
   - [Test](#test)
@@ -13,13 +14,8 @@
     - [Widget test](#widget-test)
     - [House test](#house-test)
   - [Translation](#translation)
-  - [TODO feature](#todo-feature)
-  - [TODO feature](#todo-feature-1)
-    - [Todo database](#todo-database)
-    - [Todo-Task collection](#todo-task-collection)
-    - [Todo-assign collection](#todo-assign-collection)
-    - [Widgets of TODO](#widgets-of-todo)
-      - [TodoListView](#todolistview)
+  - [Friend](#friend)
+    - [Friend Logic](#friend-logic)
 
 
 ## Building as a core developer
@@ -27,17 +23,22 @@
 - Create your own example app with `example/lib/main.[feature].dart`. Don't touch others app.
 
 
-
 ## Coding convention
 
 
-### Singular form
+### Documenations
 
-Singular form is preferred for field names, function names, collection names, etc.
+#### Mermaid
+
+- Starting must be `START(xxxx)`
+- End must be `END(())`
+- End with options should be `BUTTONS>Many options]`. For instance, after create a post, the app will show post deatil screen where the user can choose many options. And the process is finished when the post is created, then use this.
+- Process must be `WORK[xxxx]`
+- Create, Save, Update, Delete, or anything that need Database work must be `SAVE[(CREATE|UPDATE|DELETE)]`
+- Subroutines, or the next screen, dialog should be displayed with `NEXT_SCREEN[[List screen xxx]]`.
 
 
-
-### Model class
+### Model and Service class
 
 Model class does
 - serialization/deserialization
@@ -60,7 +61,7 @@ Use `FirestoreQueryBuilder` or `FirebaseDatabaseQueryBuilder`. Use query builder
 
 ## Documentation
 
-There is no enlish version of documents. So, write all the document in the source code. The comment int source code will turn into dartdoc when it is deployed into pub.dev.
+There is no english version of documents. So, write all the document in the source code. The comment int source code will turn into dartdoc when it is deployed into pub.dev.
 
 
 ## Test
@@ -138,131 +139,50 @@ expect('apple'.tr(args: {'name': 'J', 'n': n}, form: n), 'J has 3 apples.');
 ```
 
 
-## TODO feature
+## Friend
 
 
-- A task can not be shared to multiple users. It's not sharing. It's like the same task is given to muliple user.
-  - `Sharing task and working together is not supported, yet`.
-  - When the creator creates a task, there will be only 1 copy of the task under `/todo-task`.
-
-- The creator can assign the task to other user.
-  - The list of assigns will be saved under `/todo-task-assign` subcollection.
-
-- The relation of creator and assignee is N:M.
+### Friend Logic
 
 
-
-
-
-
-
-
-- flow of task.
-```
-creator -> assigned -> in-progress(working) -> [ finished | quit ] -> review -> [ accept | reject ]
-```
-
-- creator can schedule the task.
-
-```
-accept -> archive
-```
-
-```
-reject -> [ask for enhance | failure | re-assign | delete]
-```
-
-```
-failure -> [re-assign | achive | delete]
+- All friend relation data is saved in the documents right under `friends` documents.
+- The id of the document is the uid of the user.
+- Each document has `sent`, `received`, `mutal`, `rejected` fields and each field is an array of uid string.
+- If A request to B, then the firestore structure will be
+```json
+/friends
+  /A { sent: [B] }
+  /B { received: [A] }
 ```
 
 
-- status of task
+- If B accepts A's request, the database will be like below
+  - If A accepts B, then B should be removed from `sent` or `receieved` fields and move to `mutual` field.
+```json
+/friends
+  /A { mutual: [B] }
+  /B { mutual: [A] }
 ```
-[] -> [finished | quit] -> [accept | reject ]
+
+
+- If C request to D, and D rejected,
+```json
+/friends
+  /C {sent: [D]},
+  /D {rejected: [C]},
 ```
 
-- when the moderator accepts; properties: comment, score,
-- when the moderator rejects; properties: comment, ... the task can be re-assigned to someone else.
+- If C request to A, and A rejected
+```json
+  /A {mutual: [B], rejected: [C]}
+  /C {sent: [A, D]}
+```
 
 
-'uid-1': { status: "", beginDate: "2024-07-04", endDate: "2024-08-01", comment: ".....", ......  }, 1M limit
-status is is empty
-date: is ongoing
-
-
-
-
-
-///   'uid-2': {status: 'rejected', },
-///   'uid-3': 'review',
-///   'uid-4': 'ongoing',
-///   'uid-5': 'done',
-
-
-task1 { assigned: { .... }}
-task2 { assigned: { .... }}
-task3 { assigned: { .... : my-uid: finished }}
-task4 { assigned: { .... }}
-task5 { assigned: { .... }}
-task6 { assigned: { .... }}
-task7 { 
-    task-aissgned /
-        uid-1 { ... }
-        uid-2 { ... }
-        uid-3 { ... }
-        uid-4 { ... }
-}
-/users/privte/"task-assigned"/ ... documents ...
-/todo/people/works/tomorrow/"task_assgned"/ ... many documetns ...
-...
-
-
-
-
-
-
-
-## TODO feature
-
-### Todo database
-
-### Todo-Task collection
-
-- `uid` is the creator.
-- `assignedTo` is a list of uids that the task was aissgend to. This will help on getting the user list of the task.
-
-- `updatedAt` is updated when there is any changes on the task itself. Not the chagnes of other entitles like asignees.
-
-
-
-
-### Todo-assign collection
-
-- `status` is the status of the task.
-  - The `status` can be chagned by the creator or assignee.
-  - It can be one of;
-    - `waiting` - meaning, the task is created but no activity yet. the task is assigned and the aissgnee hasn't done anyting yet.
-    - `progress` - the task is in the middle of work.
-    - `finished` - The task is finished. The app should notify the moderators(creators)
-    - `review` - the work is in review. asking, the moderator to review it.
-    - `closed` - the moderator can only mark it as `closed`. If the task is in `closed` status, assignee cannot update(change) anyting including the status anymore.
-  - For example, The status can be changed at any time. Assignee can mark it as `review` and the moderator can mark it as `progress` soon after. But the moderator is the only one who can mark it as `closed` and once it is closed, it cannot be updated(changed).
-
-
-
-
-### Widgets of TODO
-
-#### TodoListView
-
-This list view is responsible to list all kinds of tasks which includes but not limited to, listing;
-  - tasks that are created by himself,
-  - tasks that assign to himself, 
-  - task that are create by himself and assigned himself,
-  - task that are create by himself and assigned to others,
-  - task that are create by himself and not assigned to any one,
-  - task that are create by himself and assigned to more than 2 others,
-  - and more more options.
+- If D request to A, and A accepts
+```json
+  /A {mtual: [B, D], rejected: [C]}
+  /D {mutual: [A], rejected: [C]}
+```
 
 
